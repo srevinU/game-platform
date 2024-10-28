@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import type { CSSProperties } from 'vue'
+
 type Game = {
   title: string
   image: string
@@ -24,11 +27,26 @@ const data: Game[] = [
 const handleClick = (url: string) => {
   window.open(url)
 }
+
+const isMobile = window.innerWidth < 768
+
+const style = ref<{
+  cardContainer: CSSProperties
+}>({
+  cardContainer: {
+    display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
+    gap: '1rem',
+    marginTop: '1rem',
+    margin: '20px',
+    alignItems: 'center',
+  },
+})
 </script>
 
 <template>
   <main>
-    <div id="card-container">
+    <div id="card-container" :style="style.cardContainer">
       <div
         v-for="(item, index) in data"
         :key="index"
@@ -52,13 +70,6 @@ const handleClick = (url: string) => {
 </template>
 
 <style scoped>
-#card-container {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-  margin: 20px;
-}
-
 .card {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
